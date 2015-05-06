@@ -13,11 +13,5 @@ typedef size_t FID;
 typedef size_t SegmentNumber;
 typedef size_t BlockNumber;
 
-enum Block {
-    DEAD,
-    LIVE
-};
-
-
 #endif
 

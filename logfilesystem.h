@@ -6,6 +6,7 @@
  */
 #include "standard.h"
 #include "segment.h"
+#include "block.h"
 
 class LogFileSystem {
     public:

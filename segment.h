@@ -5,6 +5,7 @@
  *  Declaration of Segment
  */
 #include "standard.h"
+#include "block.h"
 
 class Segment {
     public:
@@ -18,7 +19,7 @@ class Segment {
         Block getBlock(BlockNumber n) const;
     private:
         const SegmentNumber m_idx;
-        bool m_is_dirty;
+        bool m_is_dirty; //True if any block is live
 
         std::vector<Block> m_blocks;
         Segment *m_next;
