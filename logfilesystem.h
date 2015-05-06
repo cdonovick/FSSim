@@ -6,7 +6,6 @@
  */
 #include "standard.h"
 #include "segment.h"
-#include "block.h"
 #include <unordered_map>
 
 class LogFileSystem {
@@ -69,14 +68,12 @@ class LogFileSystem {
 
 
 		/* methods */
-        INode getINode(FID fid);
 		void clean();
 
         /* internal use */
 
 		std::vector<Segment> m_segments;
-        std::vector<Block> m_blocks;
-		
+        
         Segment *m_head_ptr;
 		size_t m_head_idx;
 		
@@ -84,6 +81,5 @@ class LogFileSystem {
 		Segment *m_dirty_head;
 		
         size_t m_dirt_num;
-
 };
 #endif
