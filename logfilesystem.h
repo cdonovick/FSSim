@@ -47,10 +47,10 @@ class LogFileSystem {
 		 * getters - segment_num, segment_size, min_life, min_clean
 		 * setter - min_life, min_clean
 		 */
-		size_t getSegNum() const;
-		size_t getSegSize() const;
-		double getMinLife() const;
-		double getMinClean() const;
+		size_t getSegNum() const noexcept;
+		size_t getSegSize() const noexcept;
+		double getMinLife() const noexcept;
+		double getMinClean() const noexcept;
 
 		void setMinLife(double min_life_val);
 		void setMinClean(double min_clean_val);

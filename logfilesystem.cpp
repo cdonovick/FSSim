@@ -7,22 +7,22 @@
 /*
  * getters & setters for data members
  */
-size_t LogFileSystem::getSegNum() const
+size_t LogFileSystem::getSegNum() const noexcept
 {
 	return m_segment_num;
 }
 
-size_t LogFileSystem::getSegSize() const
+size_t LogFileSystem::getSegSize() const noexcept
 {
 	return m_segment_size;
 }
 
-double LogFileSystem::getMinLife() const
+double LogFileSystem::getMinLife() const noexcept
 {
 	return m_min_life;
 }
 
-double LogFileSystem::getMinClean() const
+double LogFileSystem::getMinClean() const noexcept
 {
 	return m_min_clean;
 }
