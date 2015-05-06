@@ -5,45 +5,67 @@
  *  Declaration of the LogFileSystem
  */
 #include "standard.h"
+#include "segment.h"
 
 class LogFileSystem {
     public:
-
-
         /* 
-         * capacity     - the number of segments in the file system
+         * segment_num  - the number of segments in the file system
          * segment_size - the number of blocks in  segment
          *
          * min_life     - minimum percent liveliness before a block is scheduled for cleaning
          * min_clean    - minimum percent clean segments for the cleaner to run 
          */
-        LogFileSystem(size_t capacity, size_t segment_size, double min_life, double min_clean);
+        LogFileSystem(size_t segment_num, size_t segment_size, double min_life, double min_clean);
 
         ~LogFileSystem();
 
         /*
-         * fid      - file id,
-         * size     - number of blocks in the file
-         * change   - change in file size, can be 0
+         * fid  - file id
+         * size - number of blocks to allocate to file
          */
         void createFile(FID fid, size_t size);
+        void growFile(FID fid, size_t size);
         void deleteFile(FID fid);
-        void writeFile(FID fid, int change);
-        void readFile(FID fid);
+        
+        /*
+         * fid  - file id
+         * n    - block of file being accessed
+         */
+        void readBlock(FID fid, BlockNumber n);
+        void writeBlock(FID fid, BlockNumber n);
+        void deleteBlock(FID fid, BlockNumber n);
+
+        /*
+         * getters - segment_num, segment_size, min_life, min_clean
+         * setter - min_life, min_clean
+         */
 
         /*
          * Get stats functions
          * we are going to have to figure out what we want to collect
          */
+    protected:        
+        
+        /* data */
+        const size_t m_segment_num;
+        const size_t m_segment_size;
+        double m_min_life;
+        double m_min_clean;
+
+        std::vector<Segment> m_segments;
+        
+        Segment *m_head_ptr;
+        size_t m_head_idx;
+
+        Segment *m_clean_tail;
+
+        Segment *m_dirty_head;
+        size_t m_dirt_num;
 
 
-    protected:
-        typedef bool block; 
-
-        struct segment {
-            std::vector<block> blocks;
-            segment *next;
-        };
+        /* methods */
+        Block lookup(SegmentNumber a, BlockNumber b);
+        void clean();
 };
 #endif
-
