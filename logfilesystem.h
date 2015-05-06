@@ -19,12 +19,7 @@ class LogFileSystem {
 		 */
 
 		//Just change this constructor if its not done right
-		LogFileSystem(size_t segment_num, size_t segment_size, double min_life, double min_clean) 
-			: m_segment_num(segment_num), 
-			m_segment_size(segment_size),
-			m_min_life(min_life),
-			m_min_clean(min_clean){ }
-
+		LogFileSystem(size_t segment_num, size_t segment_size, double min_life, double min_clean);
 		~LogFileSystem();
 
 		/*
@@ -41,7 +36,6 @@ class LogFileSystem {
 		 */
 		void readBlock(FID fid, BlockNumber n);
 		void writeBlock(FID fid, BlockNumber n);
-		void deleteBlock(FID fid, BlockNumber n);
 
 		/*
 		 * getters - segment_num, segment_size, min_life, min_clean
@@ -70,7 +64,7 @@ class LogFileSystem {
 
         /* internal use */
 		std::vector<Segment> m_segments;
-        std::unorder_map<FID, std::vector<Segment *>> m_file_map;
+        std::unordered_map<FID, std::vector<Segment *>> m_file_map;
 
         Segment *m_head_ptr;
         Segment *m_clean_tail;

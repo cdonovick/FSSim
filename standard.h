@@ -8,7 +8,7 @@
 #include <cstddef>
 #include <vector>
 #include <utility>
-
+#include <cassert>
 typedef size_t FID;
 typedef size_t BlockNumber;
 
