@@ -16,8 +16,13 @@ class LogFileSystem {
          * min_life     - minimum percent liveliness before a block is scheduled for cleaning
          * min_clean    - minimum percent clean segments for the cleaner to run 
          */
-        LogFileSystem(size_t segment_num, size_t segment_size, double min_life, double min_clean);
-
+        //Just change this constructor if its not done right
+        LogFileSystem(size_t segment_num, size_t segment_size, double min_life, double min_clean)
+        :   m_segment_num(segment_num),
+            m_segment_size(segment_size),
+            m_min_life(min_life),
+            m_min_clean(min_clean){ }
+        
         ~LogFileSystem();
 
         /*
