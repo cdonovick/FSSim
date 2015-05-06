@@ -58,28 +58,24 @@ class LogFileSystem {
 		 * Get stats functions
 		 * we are going to have to figure out what we want to collect
 		 */
-	protected:        
-
+	protected:
 		/* data */
 		const size_t m_segment_num;
 		const size_t m_segment_size;
 		double m_min_life;
 		double m_min_clean;
 
-
 		/* methods */
 		void clean();
 
         /* internal use */
-
 		std::vector<Segment> m_segments;
-        
+        std::unorder_map<FID, std::vector<Segment *>> m_file_map;
+
         Segment *m_head_ptr;
-		size_t m_head_idx;
-		
         Segment *m_clean_tail;
 		Segment *m_dirty_head;
-		
+
         size_t m_dirt_num;
 };
 #endif

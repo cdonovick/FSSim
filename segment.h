@@ -8,15 +8,16 @@
 
 class Segment {
     public:
-        Segment(SegmentNumber n, size_t num_blocks);        
+        Segment(size_t num_blocks);
         bool isDirty() const noexcept;
         double getLiveliness() const noexcept;
-        SegmentNumber getSegmentNumber() const noexcept;
+        
+        Segment getNext();
+        void setNext(Segment * next);
 
         void addBlock();
         void removeBLock();
     private:
-        const SegmentNumber m_idx;
         size_t num_live;
         const size_t m_num_blocks;
         Segment *m_next;

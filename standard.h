@@ -10,7 +10,6 @@
 #include <utility>
 
 typedef size_t FID;
-typedef size_t SegmentNumber;
 typedef size_t BlockNumber;
 
 #endif
