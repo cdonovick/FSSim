@@ -14,8 +14,8 @@ typedef size_t SegmentNumber;
 typedef size_t BlockNumber;
 
 enum Block {
-    dead,
-    live
+    DEAD,
+    LIVE
 };
 
 
