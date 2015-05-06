@@ -17,7 +17,7 @@ class LogFileSystem {
          * min_clean    - minimum percent clean segments for the cleaner to run 
          */
 
-				//Just change this constructor if its not done right but it compiles
+				//Just change this constructor if its not done right
         LogFileSystem(size_t segment_num, size_t segment_size, double min_life, double min_clean) 
 					: m_segment_num(segment_num), 
 						m_segment_size(segment_size),
