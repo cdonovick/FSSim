@@ -16,7 +16,13 @@ class LogFileSystem {
          * min_life     - minimum percent liveliness before a block is scheduled for cleaning
          * min_clean    - minimum percent clean segments for the cleaner to run 
          */
-        LogFileSystem(size_t segment_num, size_t segment_size, double min_life, double min_clean);
+
+				//Just change this constructor if its not done right but it compiles
+        LogFileSystem(size_t segment_num, size_t segment_size, double min_life, double min_clean) 
+					: m_segment_num(segment_num), 
+						m_segment_size(segment_size),
+						m_min_life(min_life),
+						m_min_clean(min_clean){ }
 
         ~LogFileSystem();
 
@@ -40,7 +46,12 @@ class LogFileSystem {
          * getters - segment_num, segment_size, min_life, min_clean
          * setter - min_life, min_clean
          */
-
+				size_t get_seg_num();
+				size_t get_seg_size();
+				double get_min_life();
+				double get_min_clean();
+				void set_min_life(double min_life_val);
+				void set_min_clean(double min_clean_val);
         /*
          * Get stats functions
          * we are going to have to figure out what we want to collect
