@@ -38,6 +38,3 @@ void LogFileSystem::setMinClean(double min_clean_val)
 }
 
 
-
-
-

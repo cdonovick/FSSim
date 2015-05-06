@@ -9,19 +9,16 @@
 
 class Segment {
     public:
-        Segment(SegmentNumber n, size_t num_blocks);
-        
-        bool isDirty(void) const noexcept;
-        double getLiveliness(void) const noexcept;
+        Segment(SegmentNumber n, size_t num_blocks, Block *blocks);        
+        bool isDirty() const noexcept;
+        double getLiveliness() const noexcept;
         SegmentNumber getSegmentNumber() const noexcept;
-
-        void setBlock(BlockNumber n, Block b);
-        Block getBlock(BlockNumber n) const;
+        Block * getBlock(BlockNumber n) const;
     private:
         const SegmentNumber m_idx;
         bool m_is_dirty; //True if any block is live
-
-        std::vector<Block> m_blocks;
+        const size_t m_num_blocks;
+        const Block *m_blocks;
         Segment *m_next;
 };
 #endif

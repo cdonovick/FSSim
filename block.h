@@ -3,23 +3,24 @@
 #include "standard.h"
 class Block {
     public:
-        Block(); //Should init m_live to false
+        Block(Block *p); //Should init m_live to false
         ~Block();
-        bool getLive() const;
+        bool getLive() const noexcept;
         void setLive(bool b);
-        virtual bool isINode() const; //should return false
+        Block * getParent() const noexcept;
+        void setParent(Block *p);
     protected:
         bool m_live;
+        Block *parent;
 };
 
-class Inode : public Block {
+class INode : public Block {
     public:
-        Inode(FID fid, size_t size);
-        virtual bool isINode() const; //should return true
-        Block * getBlock(BlockNumber n) const;
+        INode(FID fid, size_t size);
+        Block * getBlock(BlockNumber n);
         void setBlock(BlockNumber n, Block *b);
     private:
-        std::vector<Block *> m_file_blocks; 
+        std::vector<Block *> m_file_blocks;
 };
 
 #endif
