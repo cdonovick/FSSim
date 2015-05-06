@@ -1,5 +1,4 @@
 #include "logfilesystem.h"
-using namespace std;
 
 /*
  * Constructors and destructors
@@ -8,32 +7,32 @@ using namespace std;
 /*
  * getters & setters for data members
  */
-size_t LogFileSystem::get_seg_num()
+size_t LogFileSystem::getSegNum() const
 {
 	return m_segment_num;
 }
 
-size_t LogFileSystem::get_seg_size()
+size_t LogFileSystem::getSegSize() const
 {
 	return m_segment_size;
 }
 
-double LogFileSystem::get_min_life()
+double LogFileSystem::getMinLife() const
 {
 	return m_min_life;
 }
 
-double LogFileSystem::get_min_clean()
+double LogFileSystem::getMinClean() const
 {
 	return m_min_clean;
 }
 
-void LogFileSystem::set_min_life(double min_life_val)
+void LogFileSystem::setMinLife(double min_life_val)
 {
 	m_min_life = min_life_val;
 }
 
-void LogFileSystem::set_min_clean(double min_clean_val)
+void LogFileSystem::setMinClean(double min_clean_val)
 {
 	m_min_clean = min_clean_val;
 }

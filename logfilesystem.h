@@ -47,12 +47,13 @@ class LogFileSystem {
 		 * getters - segment_num, segment_size, min_life, min_clean
 		 * setter - min_life, min_clean
 		 */
-		size_t get_seg_num();
-		size_t get_seg_size();
-		double get_min_life();
-		double get_min_clean();
-		void set_min_life(double min_life_val);
-		void set_min_clean(double min_clean_val);
+		size_t getSegNum() const;
+		size_t getSegSize() const;
+		double getMinLife() const;
+		double getMinClean() const;
+
+		void setMinLife(double min_life_val);
+		void setMinClean(double min_clean_val);
 		/*
 		 * Get stats functions
 		 * we are going to have to figure out what we want to collect
