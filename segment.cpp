@@ -7,10 +7,7 @@ Segment::Segment(size_t num_blocks, Segment *next)
 {
 	num_live = 0;
 }
-/* Need to decide what constitutes a dirty block:
-* 
-*
-*/
+
 bool Segment::isDirty() const noexcept
 {
 	if(num_live >0)
