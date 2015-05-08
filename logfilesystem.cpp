@@ -116,7 +116,6 @@ void LogFileSystem::allocate(FID fid, std::deque<Segment *> &fileBlocks, size_t 
             --size;
         }
         if (size > 0) {
-            ++m_num_seek;
             assert(m_head_ptr->getFree() == 0);
             advanceHead();
         }
@@ -127,6 +126,7 @@ void LogFileSystem::deleteBlock(FID fid, BlockNumber n)
 {
     ++m_num_access;
     std::deque<Segment *> fileBlocks = m_file_map[fid];
+    m_num_seek += m_file_map[fid][n] != m_head_ptr; 
     /* n + 1 for INode */
     deleteBlock(fid, fileBlocks, n + 1);
     m_file_map[fid] = fileBlocks;
@@ -249,7 +249,6 @@ void LogFileSystem::deleteBlock(FID fid, std::deque<Segment *> &fileBlocks, Bloc
 {
     /* block to be deleted */
     assert (fileBlocks.size() > n);
-    m_num_seek += m_file_map[fid][n] != m_head_ptr; 
     fileBlocks[n]->removeLiveBlocks(fid, 1);
     if (!fileBlocks[n]->isDirty()) {
         pushClean(fileBlocks[n]);
@@ -285,5 +284,6 @@ void LogFileSystem::advanceHead()
     }
     pushDirty(m_head_ptr);
     m_head_ptr = ptr;
+    ++m_num_seek;
     ++m_dirt_total;
 }
