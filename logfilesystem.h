@@ -77,9 +77,9 @@ class LogFileSystem {
         
         void pushDirty(Segment *ptr);
         void pushClean(Segment *ptr);
-        void allocate(FID fid, std::deque<Segment *> fileBlocks, size_t size);
-        void deleteBlock(FID fid, std::deque<Segment *> fileBlocks, BlockNumber n);
-        void moveBlock(FID fid, std::deque<Segment *> fileBlocks, BlockNumber n);
+        void allocate(FID fid, std::deque<Segment *> &fileBlocks, size_t size);
+        void deleteBlock(FID fid, std::deque<Segment *> &fileBlocks, BlockNumber n);
+        void moveBlock(FID fid, std::deque<Segment *> &fileBlocks, BlockNumber n);
         void advanceHead();
         /* internal use */
         std::vector<Segment> m_segments;

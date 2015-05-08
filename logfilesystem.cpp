@@ -76,6 +76,8 @@ void LogFileSystem::createFile(FID fid, size_t size)
     assert (fileBlocks.empty());
     /* n + 1 for INode */
     allocate(fid, fileBlocks, size + 1);
+    assert (fileBlocks.size() == size + 1);
+    m_file_map[fid] = fileBlocks;
     clean();
 }
 
@@ -88,7 +90,7 @@ void LogFileSystem::growFile(FID fid, size_t size)
     allocate(fid, fileBlocks, size);
     /* update INode */
     moveBlock(fid, fileBlocks, 0);
-
+    m_file_map[fid] = fileBlocks;
     clean();
 }
 
@@ -97,25 +99,25 @@ void LogFileSystem::deleteFile(FID fid)
 
     ++m_num_access;
     std::deque<Segment *> fileBlocks = m_file_map[fid];
+    assert (!fileBlocks.empty());
     while(!fileBlocks.empty()) {
         deleteBlock(fid, fileBlocks, 0);
     }
+    m_file_map[fid] = fileBlocks;
 }
 
 
-void LogFileSystem::allocate(FID fid, std::deque<Segment *> fileBlocks, size_t size)
+void LogFileSystem::allocate(FID fid, std::deque<Segment *> &fileBlocks, size_t size)
 {
     while(size > 0) {
-        if (m_head_ptr->getFree() > size) {
-            m_head_ptr->addLiveBlocks(fid, size);
-            size = 0;
-            fileBlocks.insert(fileBlocks.end(), size, m_head_ptr);
-        } else {
+        while (m_head_ptr->getFree() && size > 0) {
+            fileBlocks.push_back(m_head_ptr);
+            m_head_ptr->addLiveBlocks(fid, 1);
+            --size;
+        }
+        if (size > 0) {
             ++m_num_seek;
-            size_t temp = m_head_ptr->getFree();
-            m_head_ptr->addLiveBlocks(fid, temp);
-            fileBlocks.insert(fileBlocks.end(), temp, m_head_ptr);
-            size -= temp;
+            assert(m_head_ptr->getFree() == 0);
             advanceHead();
         }
     }
@@ -124,9 +126,10 @@ void LogFileSystem::allocate(FID fid, std::deque<Segment *> fileBlocks, size_t s
 void LogFileSystem::deleteBlock(FID fid, BlockNumber n)
 {
     ++m_num_access;
+    std::deque<Segment *> fileBlocks = m_file_map[fid];
     /* n + 1 for INode */
-    deleteBlock(fid, m_file_map[fid], n + 1);
-
+    deleteBlock(fid, fileBlocks, n + 1);
+    m_file_map[fid] = fileBlocks;
     clean();
 }
 
@@ -141,12 +144,14 @@ void LogFileSystem::writeBlock(FID fid, BlockNumber n)
 {
     ++m_num_access;
     std::deque<Segment *> fileBlocks = m_file_map[fid];
+    std::cout << fileBlocks.size() << std::endl;
     /* n + 1 for INode */
     moveBlock(fid, fileBlocks, n + 1);
 
     /* update INode */
     moveBlock(fid, fileBlocks, 0);
 
+    m_file_map[fid] = fileBlocks;
     clean();
 }
 
@@ -241,7 +246,7 @@ void LogFileSystem::pushClean(Segment *ptr)
     m_dirt_total--;
 }
 
-void LogFileSystem::deleteBlock(FID fid, std::deque<Segment *> fileBlocks, BlockNumber n)
+void LogFileSystem::deleteBlock(FID fid, std::deque<Segment *> &fileBlocks, BlockNumber n)
 {
     /* block to be deleted */
     assert (fileBlocks.size() > n);
@@ -254,7 +259,7 @@ void LogFileSystem::deleteBlock(FID fid, std::deque<Segment *> fileBlocks, Block
 }
 
 
-void LogFileSystem::moveBlock(FID fid, std::deque<Segment *> fileBlocks, BlockNumber n)
+void LogFileSystem::moveBlock(FID fid, std::deque<Segment *> &fileBlocks, BlockNumber n)
 {
     m_num_seek += m_file_map[fid][n] != m_head_ptr; 
     assert(fileBlocks.size() > n);
