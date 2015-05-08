@@ -8,7 +8,7 @@ void input_gen::generate(){
         std::set<fake_process> running;
     for(int i = 0; i < 5; ++i){
             int deviation = rand()%range;
-            fake_process p(++address,  size*MEGABYTE + deviation*(rand()%2==0 || ((size*MEGABYTE-deviation)<=0) ? 1 : -1));
+            fake_process p(++address,  size*MEGABYTE + deviation);
              running.insert(p);
             std::cout << "START " <<  std::to_string(p.location) << " " << std::to_string(p.size) << std::endl;
     }
@@ -24,7 +24,7 @@ void input_gen::generate(){
 
         if(((total+=touch) > dice) || running.size() < 2){
             int deviation = rand()%range;
-            fake_process proc(++address,  size*MEGABYTE + deviation*((rand()%2==0 || ((size*MEGABYTE-deviation)<=0) ? 1 : -1)));
+            fake_process proc(++address,  size*MEGABYTE + deviation);
             running.insert(proc);
             std::cout << "START " <<  std::to_string(proc.location) << " " << std::to_string(proc.size) << std::endl;
         }
