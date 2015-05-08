@@ -56,6 +56,9 @@ class LogFileSystem {
          * Get stats functions
          * we are going to have to figure out what we want to collect
          */
+
+        size_t getNumAccess() const noexcept;
+        size_t getNumSeek() const noexcept;
     private:
         /* data */
         const size_t m_segment_num;
@@ -63,6 +66,9 @@ class LogFileSystem {
         double m_min_life;
         double m_min_clean;
         
+        size_t m_num_access;
+        size_t m_num_seek;
+
         /* methods */
         void clean();
         void forceClean();
