@@ -16,7 +16,7 @@ int main(int argc, char **argv) {
 	int seg_size = atoi(argv[2]);
 	double min_life = atof(argv[3]);
 	double min_clean = atof(argv[4]);
-	std::cout << "num segs: " << num_segs << " seg_size " << seg_size << " min_lie " << min_life << " min clean " << min_clean << std::endl;
+	//std::cout << "num segs: " << num_segs << " seg_size " << seg_size << " min_lie " << min_life << " min clean " << min_clean << std::endl;
 	if(num_segs < 0 || seg_size < 0 || min_life <= 0 || min_life > 1 || min_clean <= 0 || min_clean > 1)
 	{	
 		cerr << "<num_segments> and <segment_size> must be greater than 0." << endl;
@@ -28,7 +28,6 @@ int main(int argc, char **argv) {
 	in.open(argv[5], ifstream::in);
 	string line, temp;
 	int fid = 0, block_num = 0, size = 0;
-	cerr << "opening file " << endl;
 	while(in.good() && getline(in, line))	
 	{
 		ss << line;
@@ -38,7 +37,7 @@ int main(int argc, char **argv) {
 		//Start: create a new process and add to map
 		if(!temp.compare("START"))
 		{
-			cerr << "IN START" << endl;		
+			//cerr << "IN START" << endl;		
 			//First number is process number
 			ss >> temp;
 			fid  = atoi(temp.c_str());
@@ -49,14 +48,14 @@ int main(int argc, char **argv) {
 		}
 		else if(!temp.compare("TERMINATE"))
 		{
-			cerr << "IN TERMINATE" << endl;		
+			//cerr << "IN TERMINATE" << endl;		
 			//Fid
 			ss >> temp;
 			lfs.deleteFile(atoi(temp.c_str()));
 		}
 		else if(!temp.compare("GROW"))
 		{
-			cerr << "IN GROW" << endl;		
+			//cerr << "IN GROW" << endl;		
 			//Fid
 			ss >> temp;
 			fid = atoi(temp.c_str());
@@ -68,7 +67,7 @@ int main(int argc, char **argv) {
 		}
 		else if(!temp.compare("WRITE"))
 		{
-			cerr << "IN WRITE" << endl;		
+			//cerr << "IN WRITE" << endl;		
 			//Fid
 			ss >> temp;
 			fid = atoi(temp.c_str());
@@ -79,7 +78,7 @@ int main(int argc, char **argv) {
 		}
 		else if(!temp.compare("READ"))
 		{
-			cerr << "IN READ" << endl;		
+			//cerr << "IN READ" << endl;		
 			//Fid
 			ss >> temp;
 			fid = atoi(temp.c_str());
@@ -91,6 +90,16 @@ int main(int argc, char **argv) {
 
 		ss.clear();
 	}
+	
+	cout << "Log file system performance:" << endl;
+	cout << "Number of segments: " << num_segs << endl;
+	cout << "Segment size: " << seg_size << endl;
+	cout << "Minimum life before eligible for cleaning: " << min_life << endl;
+	cout << "Minium percent of clean segments: " << min_clean << endl;
+	cout << "Number of seeks per access" << (double)lfs.getNumSeek() / (double)lfs.getNumAccess() << endl;
+
+
+
 	return 0;
 
 }

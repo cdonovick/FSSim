@@ -144,7 +144,6 @@ void LogFileSystem::writeBlock(FID fid, BlockNumber n)
 {
     ++m_num_access;
     std::deque<Segment *> fileBlocks = m_file_map[fid];
-    std::cout << fileBlocks.size() << std::endl;
     /* n + 1 for INode */
     moveBlock(fid, fileBlocks, n + 1);
 
