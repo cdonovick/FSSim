@@ -2,12 +2,9 @@
 
 void input_gen::generate(){
     std::srand(std::time(0));
-    std::string read = "READ ";
-    std::string write = "WRITE ";
-    int i(-1);
 
     unsigned address = 0x00000000;
-    unsigned prob_of_anything = r_and_w + locality;
+    int prob_of_anything = read + write + touch + grow + del;
         std::set<fake_process> running;
     for(int i = 0; i < 5; ++i){
             int deviation = rand()%range;
@@ -25,20 +22,37 @@ void input_gen::generate(){
         int add = rand()%running.size();
         std::advance(it, add);
 
-        if(((total+=locality) > dice) || running.size() < 2){
+        if(((total+=touch) > dice) || running.size() < 2){
             int deviation = rand()%range;
             fake_process p(++address,  size*MEGABYTE + deviation*((rand()%2==0 || ((size*MEGABYTE-deviation)<=0) ? 1 : -1)));
             running.insert(p);
             std::cout << "START " <<  std::to_string(p.location) << " " << std::to_string(p.size) << std::endl;
         }
 
-        else if( (total+=r_and_w) > dice){
+        else if((total+=read) > dice){
             do{   
                 t += std::rand()%(prob_of_anything-locality);
                 t = t%(it->size);
-                std::string type = rand()%2==0 ? "READ " : "WRITE ";
-                std::cout << type << std::to_string(it->location) <<  " " <<std::to_string(t) << std::endl;
+                std::cout << "READ " << std::to_string(it->location) <<  " " <<std::to_string(t) << std::endl;
             }while((std::rand()%prob_of_anything) < locality);
+        }
+ 
+        else if( (total+=write) > dice){
+            do{   
+                t += std::rand()%(prob_of_anything-locality);
+                t = t%(it->size);
+                std::cout << "WRITE " << std::to_string(it->location) <<  " " <<std::to_string(t) << std::endl;
+            }while((std::rand()%prob_of_anything) < locality);
+        }
+ 
+        else if( (total+=grow) > dice){
+            int deviation = rand()%range;
+            int old_add = it->location;
+            int old_sz = it->size;
+            running.erase(it);
+            fake_process p(old_add,old_sz + deviation);
+
+            std::cout << "GROW " << old_add <<  " " << deviation << std::endl;
         }
         else{
             std::cout << "TERMINATE " <<  std::to_string(it->location) << std::endl;

@@ -2,15 +2,20 @@
 #define __paramss__
 
 struct params{
-    int i;
-    int rw;
-	int s; 
-	int r; 
-	int l;
+    int instructions;
+    int read;
+    int write;
+	int touch; 
+	int grow; 
+	int del;
+    int locality;
+    int size;
+    int range;
+
     bool operator==(const params & rhs){
-        return ((i==rhs.i) && (rw==rhs.rw) && (s=rhs.s) && (r==rhs.r) && (r==rhs.r));    
+        return ((read==rhs.read) && (write==rhs.write) && (touch==rhs.touch)&&(grow==rhs.grow)&&(del==rhs.del) && (locality==rhs.locality) && (size==rhs.size) && (range==rhs.range));    
     }
-    params() :i(1000), rw(50), s(500), r(1000), l(20){} 
+    params() :instructions(10000), read(50), write(50), touch(50), grow(50), del(50), locality(100), size(100), range(100) {}
     
 };
 
