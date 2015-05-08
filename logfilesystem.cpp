@@ -166,7 +166,7 @@ void LogFileSystem::clean()
             cleanSegment(ptr, cleaned_blocks);
         }
     }
-
+    placeCleaned(cleaned_blocks);
 }
 
 void LogFileSystem::forceClean() 
@@ -177,6 +177,8 @@ void LogFileSystem::forceClean()
         cleanSegment(ptr, cleaned_blocks);
     }
 
+    placeCleaned(cleaned_blocks);
+}
 }
 
 void LogFileSystem::cleanSegment(Segment *ptr, std::unordered_map<FID, size_t> &cleaned_blocks)
