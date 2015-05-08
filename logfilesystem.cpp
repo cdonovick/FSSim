@@ -88,6 +88,7 @@ void LogFileSystem::deleteFile(FID fid)
 
 void LogFileSystem::allocate(FID fid, std::deque<Segment *> fileBlocks, size_t size)
 {
+    //MAY SEEK
     while(size > 0) {
         if (m_head_ptr->getFree() > size) {
             m_head_ptr->addLiveBlocks(fid, size);
@@ -113,6 +114,7 @@ void LogFileSystem::deleteBlock(FID fid, BlockNumber n)
 
 void LogFileSystem::readBlock(FID fid, BlockNumber n)
 {
+    //MAY SEEK
     /* depends on stats we are collecting */
 }
 
@@ -222,6 +224,7 @@ void LogFileSystem::pushClean(Segment *ptr)
 
 void LogFileSystem::deleteBlock(FID fid, std::deque<Segment *> fileBlocks, BlockNumber n)
 {
+    //MAY SEEK
     /* block to be deleted */
     assert (fileBlocks.size() > n);
     
@@ -235,6 +238,7 @@ void LogFileSystem::deleteBlock(FID fid, std::deque<Segment *> fileBlocks, Block
 
 void LogFileSystem::moveBlock(FID fid, std::deque<Segment *> fileBlocks, BlockNumber n)
 {
+    //MAY SEEK
     assert(fileBlocks.size() > n);
     if (!m_head_ptr->getFree()) {
         advanceHead();
