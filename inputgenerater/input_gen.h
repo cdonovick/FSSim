@@ -24,15 +24,20 @@ struct input_gen{
     unsigned instructions;
 
     //mem_pressure is set when compared to frame size
-    unsigned r_and_w;
+    unsigned read;
+    unsigned write;
+    unsigned touch;
+    unsigned grow;
+    unsigned del;
+    
+    unsigned locality;
+
     //refs, start, end are set on a scale relative to each other
     unsigned size;
     unsigned range;
-    unsigned locality; //on a scale frome 0-100
     
 
-    input_gen();
-    input_gen(params p) : instructions(p.i), r_and_w(p.rw), size(p.s), range(p.r), locality(p.l){}
+    input_gen(params p) :instructions(p.instructions), read(p.read), write(p.write), touch(p.touch), grow(p.grow), del(p.del), locality(p.locality), size(p.size), range(p.range) {}
 
     //to generate stuff
     void generate();
