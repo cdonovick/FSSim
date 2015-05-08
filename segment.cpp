@@ -40,7 +40,7 @@ void Segment::setPrev(Segment *prev) {
 void Segment::addLiveBlocks(FID fid, size_t num)
 {
     assert(getFree() >= num);
-    m_usage[fid] += num;
+    m_usage[fid] = m_usage[fid] + num;
     m_live_blocks += num;
 }
 
@@ -48,7 +48,7 @@ void Segment::removeLiveBlocks(FID fid, size_t num)
 {
     assert(m_live_blocks >= num);
     assert(m_usage[fid] >= num);
-    m_usage[fid] -= num;
+    m_usage[fid] = m_usage[fid] - num;
     m_live_blocks -= num;
 }
 
