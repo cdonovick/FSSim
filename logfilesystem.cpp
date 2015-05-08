@@ -135,26 +135,47 @@ void LogFileSystem::clean()
         return;
     }
 
+    std::unordered_map<FID, size_t> cleaned_blocks;
     for (auto ptr = m_dirty_head; ptr != nullptr; ptr = ptr->getNext()) {
         if (ptr->getLiveliness() < m_min_clean) {
-            /**
-             * TODO:
-             * clean segment 
-             * */
+            cleanSegment(ptr, cleaned_blocks);
         }
     }
+
 }
 
 void LogFileSystem::forceClean() 
 {
+
+    std::unordered_map<FID, size_t> cleaned_blocks;
     for (auto ptr = m_dirty_head; ptr != nullptr; ptr = ptr->getNext()) {
-            /**
-             * TODO:
-             * clean segment 
-             * */
+            cleanSegment(ptr, cleaned_blocks);
     }
 
 }
+
+void LogFileSystem::cleanSegment(Segment *ptr, std::unordered_map<FID, size_t> &cleaned_blocks)
+{
+    auto usage = ptr->getUsage();
+    for (auto i: usage) {
+        auto file = m_file_map[i.first];
+        auto segment = std::find(file.begin(), file.end(), ptr);
+        assert(segment != file.end());
+        deleteBlock(i.first, file, segment - file.begin());
+        cleaned_blocks[i.first]++;
+    }
+}
+
+void LogFileSystem::placeCleaned(const std::unordered_map<FID, size_t> &cleaned_blocks) 
+{
+    for (auto i: cleaned_blocks) {
+        auto fileBlocks = m_file_map[i.first];
+        allocate(i.first, fileBlocks, i.second); 
+        /* update INode */
+        moveBlock(i.first, fileBlocks, 0);
+    }
+}
+
 
 void LogFileSystem::pushDirty(Segment *ptr) 
 {

@@ -10,6 +10,7 @@
 #include <vector>
 #include <utility>
 #include <unordered_map>
+#include <algorithm>
 
 class LogFileSystem {
     public:
@@ -65,6 +66,9 @@ class LogFileSystem {
         /* methods */
         void clean();
         void forceClean();
+        void cleanSegment(Segment *ptr, std::unordered_map<FID, size_t> &cleaned_blocks);
+        void placeCleaned(const std::unordered_map<FID, size_t> &cleaned_blocks);
+        
         void pushDirty(Segment *ptr);
         void pushClean(Segment *ptr);
         void allocate(FID fid, std::deque<Segment *> fileBlocks, size_t size);
