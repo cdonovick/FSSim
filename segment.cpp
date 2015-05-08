@@ -1,48 +1,64 @@
 #include "segment.h"
-using namespace std;
 
 
-Segment::Segment(size_t num_blocks, Segment *next)
-: m_next(next), m_num_blocks(num_blocks)
-{
-	num_live = 0;
+Segment::Segment(size_t num_blocks, Segment *next, Segment *prev) : 
+    m_next(next), m_prev(prev), m_num_blocks(num_blocks) 
+{ 
 }
 
 bool Segment::isDirty() const noexcept
 {
-	if(num_live >0)
-		return true;
-	else
-		return false;
+    return m_live_blocks != 0;
 }
 
 double Segment::getLiveliness() const noexcept
 {
-	if(num_live > 0)
-		return (num_live / m_num_blocks);
-	else
-		return 0;
+    if(m_live_blocks)
+        return (m_live_blocks / m_num_blocks);
+    else
+        return 0;
 }
 
-Segment * Segment::getNext()
+Segment * Segment::getNext() const noexcept
 {
-	return m_next;
+    return m_next;
 }
 
-void Segment::addLiveBlocks(size_t num)
+Segment * Segment::getPrev() const noexcept
 {
-	num_live += num;
+    return m_prev;
+}
+
+void Segment::setNext(Segment *next) {
+    m_next = next;
+}
+
+void Segment::setPrev(Segment *prev) {
+    m_prev = prev;
+}
+
+void Segment::addLiveBlocks(FID fid, size_t num)
+{
+    assert(getFree() >= num);
+    m_usage[fid] += num;
+    m_live_blocks += num;
+}
+
+void Segment::removeLiveBlocks(FID fid, size_t num)
+{
+    assert(m_live_blocks >= num);
+    assert(m_usage[fid] >= num);
+    m_usage[fid] -= num;
+    m_live_blocks -= num;
+}
+
+size_t Segment::getFree() const 
+{
+    return (m_num_blocks-m_live_blocks);
 
 }
 
-void Segment::removeLiveBlocks(size_t num)
+std::unordered_map<FID, size_t> Segment::getUsage() const 
 {
-	num_live -= num;
-
-}
-
-size_t Segment::getFree()
-{
-	return (m_num_blocks-num_live);
-
+    return m_usage;
 }
