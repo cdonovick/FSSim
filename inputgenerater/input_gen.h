@@ -12,7 +12,7 @@
 #include <iostream>
 #include <vector>
 #include <ctime>
-#define MEGABYTE 1000000
+#define MEGABYTE 10
 
 struct input_gen{
     //lets people chose how much pressure they want to put on the system. In reality could run it with 

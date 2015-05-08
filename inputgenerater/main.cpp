@@ -21,7 +21,7 @@ int main(int argc, char **argv){
     int n = 0;
     opterr=0;
 
-    while((c=getopt(argc,argv,"uA:L:P:R:D:")) != -1){
+    while((c=getopt(argc,argv,"ui:r:w:t:g:d:l:s:a:")) != -1){
         switch(c){
             case 'u':
                 use();
