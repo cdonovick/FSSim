@@ -179,7 +179,7 @@ void LogFileSystem::forceClean()
 
     placeCleaned(cleaned_blocks);
 }
-}
+
 
 void LogFileSystem::cleanSegment(Segment *ptr, std::unordered_map<FID, size_t> &cleaned_blocks)
 {
@@ -187,7 +187,7 @@ void LogFileSystem::cleanSegment(Segment *ptr, std::unordered_map<FID, size_t> &
     for (auto i: usage) {
         auto file = m_file_map[i.first];
         auto segment = std::find(file.begin(), file.end(), ptr);
-        assert(segment != file.end());
+				assert(segment != file.end());
         deleteBlock(i.first, file, segment - file.begin());
         cleaned_blocks[i.first]++;
     }

@@ -96,7 +96,7 @@ int main(int argc, char **argv) {
 	cout << "Segment size: " << seg_size << endl;
 	cout << "Minimum life before eligible for cleaning: " << min_life << endl;
 	cout << "Minium percent of clean segments: " << min_clean << endl;
-	cout << "Number of seeks per access" << (double)lfs.getNumSeek() / (double)lfs.getNumAccess() << endl;
+	cout << "Number of seeks per access " << (double)lfs.getNumSeek() / (double)lfs.getNumAccess() << endl;
 
 
 
