@@ -1,9 +1,0 @@
-So there are 5 params. 
-
-i - for instructions total lines written 
-rw - for number of those that are reads/writes to files that allready exist. 
-    I didnt differentiate becuase I did not think it mattered. 
-s - size of the average file
-r -range of the average 
-    I do size +/- rand()%range.
-l - locality, basically touch. 
