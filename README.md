@@ -2,10 +2,10 @@
 Contributors: Caleb Donovick, Carly Schneider, David Skoda
 
 ##Main program: ./program3
-Usage: ./program3 <num_segments> <segment_size> <min_life> <min_clean> <input_file>
+Usage: ./program3 num_segments segment_size min_life min_clean input_file
 
-the recommended settings for <min_life> = .4
-			     <min_clean> = .2
+the recommended settings for min_life = .4
+			     										min_clean = .2
 
 ##Input generator: ./inputgen/input_gen (in it's own directory)
 Usage: ./input_gen -u [-u <use>] [-i <instructions>]  [-r <reads>] [-w <writes>] [-t <touch>] [-g <grow>] [-d <delete>] [-l <locality>] [-s <size>] [-a <rAnge]
